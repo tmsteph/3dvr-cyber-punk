@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk Clicker</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: black;
+            color: limegreen;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            user-select: none;
+        }
+        h1 {
+            text-shadow: 0px 0px 10px limegreen;
+        }
+        #money {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        .button {
+            background-color: limegreen;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .button:hover {
+            background-color: darkgreen;
+        }
+        #upgrades {
+            margin-top: 20px;
+            width: 90%;
+            max-width: 400px;
+        }
+        .upgrade {
+            background: rgba(0, 255, 0, 0.1);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .upgrade:hover {
+            background: rgba(0, 255, 0, 0.3);
+        }
+        .disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cyberpunk Clicker</h1>
+    <p id="money">TommyDollars: 0</p>
+    <button id="hackButton" class="button">Hack (Earn $1)</button>
+
+    <div id="upgrades">
+        <h2>Upgrades</h2>
+        <div class="upgrade" id="upgrade1">Upgrade CPU (+$2 per click) - Cost: $10</div>
+        <div class="upgrade" id="upgrade2">Automated Script (+$1/sec) - Cost: $50</div>
+    </div>
+
+    <script>
+        let money = 0;
+        let clickValue = 1;
+        let autoHack = 0;
+
+        function updateUI() {
+            document.getElementById("money").innerText = "TommyDollars: " + money;
+            document.getElementById("upgrade1").classList.toggle("disabled", money < 10);
+            document.getElementById("upgrade2").classList.toggle("disabled", money < 50);
+        }
+
+        document.getElementById("hackButton").addEventListener("click", () => {
+            money += clickValue;
+            updateUI();
+        });
+
+        document.getElementById("upgrade1").addEventListener("click", () => {
+            if (money >= 10) {
+                money -= 10;
+                clickValue += 2;
+                updateUI();
+            }
+        });
+
+        document.getElementById("upgrade2").addEventListener("click", () => {
+            if (money >= 50) {
+                money -= 50;
+                autoHack += 1;
+                updateUI();
+            }
+        });
+
+        setInterval(() => {
+            money += autoHack;
+            updateUI();
+        }, 1000);
+
+        updateUI();
+    </script>
+</body>
+</html>
